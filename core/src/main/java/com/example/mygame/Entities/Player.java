@@ -11,7 +11,7 @@ public class Player extends Sprite {
 
     public FireBall shootFireBall(int xSpeed, int ySpeed) {
         // Create a new FireBall instance
-        FireBall fireBall = new FireBall("fireball.png", this.getX() + this.getWidth(), this.getY() + this.getHeight() / 2 - 10, xSpeed, ySpeed);
+        FireBall fireBall = new FireBall("fireball.png", this.getX() + this.getWidth()/2-10, this.getY() + this.getHeight() / 2 - 10, xSpeed, ySpeed);
         return fireBall;
     }
 

@@ -38,8 +38,8 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        for (int i = 0; i < 3; i++) {
-            enemies.add(new Enemy("enemy.png", 200 + i * 120, 200, 50, 50,1));
+        for (int i = 0; i < 5; i++) {
+            enemies.add(new Enemy("enemy.png", 200 + i * 120, 200, 50, 50,1,300));
         }
     }
     @Override
@@ -73,16 +73,16 @@ public class GameScreen implements Screen {
             
             
             
-            if (Gdx.input.isKeyPressed(Input.Keys.W) && player.getY() < Gdx.graphics.getHeight() - player.getHeight()) {
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player.moveUp();
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.S) && player.getY() > 0) {
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 player.moveDown();
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.A) && player.getX() > 0) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 player.moveLeft();
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && player.getX() < Gdx.graphics.getWidth() - player.getWidth()) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 player.moveRight();
             }
             if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
@@ -97,6 +97,9 @@ public class GameScreen implements Screen {
             }
             if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
                 fireBalls.add(player.shootFireBall(-10, 0)); 
+            }
+            if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                game.setScreen(new PauseScreen(game));
             }
 
         }
