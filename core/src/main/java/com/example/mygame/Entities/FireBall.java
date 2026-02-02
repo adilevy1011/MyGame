@@ -9,7 +9,7 @@ public class FireBall extends Sprite {
     private float maxLifetime = 2f; // seconds
 
     public FireBall(String imagePath, int x, int y, int xSpeed, int ySpeed) {
-        super(imagePath, x, y, 20, 20, 100, 0);
+        super(imagePath, x, y, 25, 25, 100, 0);
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
     }

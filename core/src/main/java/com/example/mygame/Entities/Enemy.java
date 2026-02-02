@@ -5,8 +5,8 @@ public class Enemy extends Sprite {
     
     private int damage; 
     
-    public Enemy(String imagePath, int x, int y, int width, int height) {
-        super(imagePath, x, y, width, height, 100, 1);
+    public Enemy(String imagePath, int x, int y, int width, int height, int speed) {
+        super(imagePath, x, y, width, height, 100, speed);
         this.damage = 3;
     }
 
