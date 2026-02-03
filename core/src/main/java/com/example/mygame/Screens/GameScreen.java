@@ -17,11 +17,11 @@ public class GameScreen implements Screen {
     
     private Player player;
     private ArrayList<Enemy> enemies;
-    private ArrayList<Sprite> obstacles;
+    private ArrayList<Obstacle> obstacles;
     private ArrayList<FireBall> fireBalls;
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
-    private Texture background;
+    //private Texture background; //temp
     private OrthographicCamera camera;
     private Main game;
     public GameScreen(Main game) {
@@ -30,20 +30,15 @@ public class GameScreen implements Screen {
     public void show() {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        background = new Texture("grassBackground.jpg");
+        //background = new Texture("grassBackground.jpg"); //temp
         fireBalls = new ArrayList<FireBall>();
         player = new Player("sprite.png", 100, 100, 70, 70, 100, 3);
         enemies = new ArrayList<Enemy>();
-        obstacles = new ArrayList<Sprite>();
+        obstacles = new ArrayList<Obstacle>();
         camera = new OrthographicCamera();
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        for (int i = 0; i < 5; i++) {
-            enemies.add(new Enemy("enemy.png", 200 + i * 120, 200, 50, 50,1,300));
-        }
-        for(int i = 0; i < 5; i++) {
-            obstacles.add(new Sprite("fireball.png", i*10, 300, 40, 40, 0, 0));
-        }
+        
         
     }
     @Override
@@ -56,7 +51,7 @@ public class GameScreen implements Screen {
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
-        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());//temp
         batch.end();
         
         if(player.isAlive()){
@@ -177,8 +172,21 @@ public class GameScreen implements Screen {
     @Override public void hide() {}
     @Override
     public void dispose() {
-        background.dispose();
+        //background.dispose(); //temp
         batch.dispose();
         shapeRenderer.dispose();
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+    public SpriteBatch getBatch() {
+        return batch;
     }
 }
