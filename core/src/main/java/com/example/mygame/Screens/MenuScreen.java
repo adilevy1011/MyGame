@@ -66,7 +66,7 @@ public class MenuScreen implements Screen {
         mouseX = Gdx.input.getX();
         mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && startGame.isClicked(mouseX, mouseY)) {
-            GameScreen gameScreen=new GameScreen(game);
+            LevelOne gameScreen=new LevelOne(game);
             game.setScreen(gameScreen);
         }
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && options.isClicked(mouseX, mouseY)) {

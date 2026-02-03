@@ -24,8 +24,18 @@ public class GameScreen implements Screen {
     //private Texture background; //temp
     private OrthographicCamera camera;
     private Main game;
+    private int worldBoundryX1, worldBoundryX2, worldBoundryY1, worldBoundryY2;
+    private boolean worldBoundriesSet = false;
     public GameScreen(Main game) {
         this.game = game;
+    }
+    
+    public void setWorldBoundries(int x1, int x2, int y1, int y2) {
+        this.worldBoundryX1 = x1;
+        this.worldBoundryX2 = x2;
+        this.worldBoundryY1 = y1;
+        this.worldBoundryY2 = y2;
+        worldBoundriesSet = true;
     }
     public void show() {
         batch = new SpriteBatch();
@@ -44,13 +54,32 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(1f,1f, 1f, 1f);
-        camera.position.set(player.getX() + player.getWidth()/2f, player.getY() + player.getHeight()/2f, 0);
+        if(worldBoundriesSet){
+            float halfW = camera.viewportWidth / 2f;
+            float halfH = camera.viewportHeight / 2f;
+
+            // Center camera on player
+            float camX = player.getX() + player.getWidth() / 2f;
+            float camY = player.getY() + player.getHeight() / 2f;
+
+            // Clamp camera so it never shows outside bounds
+            camX = Math.max(worldBoundryX1 + halfW, camX);
+            camX = Math.min(worldBoundryX2 - halfW, camX);
+
+            camY = Math.max(worldBoundryY1 + halfH, camY);
+            camY = Math.min(worldBoundryY2 - halfH, camY);
+            camera.position.set(camX, camY, 0);
+            camera.update();
+        } else {
+            camera.position.set(player.getX() + player.getWidth()/2f, player.getY() + player.getHeight()/2f, 0);
+            camera.update();
+        }
         
-        camera.update();
         float d = Gdx.graphics.getDeltaTime(); 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
+        addToBackground();
         //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());//temp
         batch.end();
         
@@ -73,7 +102,8 @@ public class GameScreen implements Screen {
             
             
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                player.moveUp();
+                if(!worldBoundriesSet || player.getY() + player.getHeight() < worldBoundryY2)
+                    player.moveUp();
                 for(Sprite obstacle : obstacles) {
                     if(obstacle.collidesWith(player)) {
                         player.moveDown();
@@ -81,7 +111,8 @@ public class GameScreen implements Screen {
                 }
             }
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                player.moveDown();
+                if(!worldBoundriesSet || player.getY() > worldBoundryY1)
+                    player.moveDown();
                 for(Sprite obstacle : obstacles) {
                     if(obstacle.collidesWith(player)) {
                         player.moveUp();
@@ -89,7 +120,8 @@ public class GameScreen implements Screen {
                 }
             }
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                player.moveLeft();
+                if(!worldBoundriesSet || player.getX() > worldBoundryX1)
+                    player.moveLeft();
                 for(Sprite obstacle : obstacles) {
                     if(obstacle.collidesWith(player)) {
                         player.moveRight();
@@ -97,7 +129,8 @@ public class GameScreen implements Screen {
                 }
             }
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                player.moveRight();
+                if(!worldBoundriesSet || player.getX() + player.getWidth() < worldBoundryX2)
+                    player.moveRight();
                 for(Sprite obstacle : obstacles) {
                     if(obstacle.collidesWith(player)) {
                         player.moveLeft();
@@ -166,6 +199,7 @@ public class GameScreen implements Screen {
         }
     }
 
+    public void addToBackground(){}
     @Override public void resize(int width, int height) {}
     @Override public void pause() {}
     @Override public void resume() {}
